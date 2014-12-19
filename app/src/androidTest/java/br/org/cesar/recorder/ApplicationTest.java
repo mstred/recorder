@@ -1,4 +1,4 @@
-package com.mstred.recorder;
+package br.org.cesar.recorder;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
