@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
@@ -48,6 +49,19 @@ public class RecorderFragment extends Fragment {
                 }
             }
         });
+        
+        Button playBtn = (Button) rootView.findViewById(R.id.playBtn);
+        playBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getFragmentManager()
+						.beginTransaction()
+						.addToBackStack(null)
+						.replace(R.id.container, new PlayerFragment())
+						.commit();
+			}
+		});
+        
         return rootView;
     }
 
@@ -60,7 +74,7 @@ public class RecorderFragment extends Fragment {
 
     private void rec() {
         try {
-            String filename = String.format("%s.3gp", System.currentTimeMillis());
+            String filename = System.currentTimeMillis() + ".3gp";
             File recFile = new File(mCtx.getFilesDir(), filename);
             recFile.createNewFile();
             mRec.setOutputFile(recFile.getAbsolutePath());
@@ -68,6 +82,8 @@ public class RecorderFragment extends Fragment {
             mRec.start();
         } catch (IOException e) {
             Log.e(MainActivity.TAG, e.getMessage(), e);
+            mRec.reset();
+            this.setUpRecorder();
         }
     }
 
