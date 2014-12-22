@@ -8,8 +8,11 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static String TAG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TAG = getString(R.string.app_name);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
