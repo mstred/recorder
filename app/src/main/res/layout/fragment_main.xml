@@ -36,6 +36,14 @@
                 android:textOn="@string/stop"
                 android:textSize="@dimen/abc_text_size_display_3_material" />
 
+            <Button
+                android:id="@+id/playBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/PlayerFragment_PlayButton"
+                android:textSize="@dimen/abc_text_size_display_3_material" />
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
