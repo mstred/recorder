@@ -71,6 +71,7 @@ public class PlayerFragment extends Fragment {
 		this.mSelectedItemPosition = index;
 	}
 
+	@SuppressWarnings("deprecation")
 	private SoundPool createSoundPool() {
 		// OBS: Should be using SoundPool.Builder instead, but it's only for API
 		// level 21 and we are using level 14 for this demo. 

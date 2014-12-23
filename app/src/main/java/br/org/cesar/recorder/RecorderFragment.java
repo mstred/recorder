@@ -32,7 +32,7 @@ public class RecorderFragment extends Fragment {
 
         setUpRecorder();
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recorder, container, false);
         ToggleButton mRecBtn = (ToggleButton) rootView.findViewById(R.id.recBtn);
         mRecImg = (ImageView) rootView.findViewById(R.id.recImg);
         mCtx = rootView.getContext();
