@@ -30,8 +30,6 @@ public class RecorderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        setUpRecorder();
-
         View rootView = inflater.inflate(R.layout.fragment_recorder, container, false);
         ToggleButton mRecBtn = (ToggleButton) rootView.findViewById(R.id.recBtn);
         mRecImg = (ImageView) rootView.findViewById(R.id.recImg);
@@ -74,9 +72,9 @@ public class RecorderFragment extends Fragment {
 
     private void rec() {
         try {
-            String filename = System.currentTimeMillis() + ".3gp";
+            setUpRecorder();
+            String filename = String.valueOf(System.currentTimeMillis());
             File recFile = new File(mCtx.getFilesDir(), filename);
-            recFile.createNewFile();
             mRec.setOutputFile(recFile.getAbsolutePath());
             mRec.prepare();
             mRec.start();

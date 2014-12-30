@@ -5,41 +5,47 @@
     android:background="@color/windowBackground"
     android:orientation="horizontal"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity$PlaceholderFragment" >
+    tools:context=".MainActivity$PlaceholderFragment">
 
-    <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        card_view:cardCornerRadius="@dimen/cardview_default_radius"
+        card_view:cardElevation="@dimen/cardview_default_elevation">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ListView
-                android:id="@+id/PlayerFragment_FileList"
+                android:id="@+id/file_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="4" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_vertical_margin">
 
                 <Button
-                    android:id="@+id/PlayerFragment_PlayButton"
+                    android:id="@+id/play_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/PlayerFragment_PlayButton" />
+                    android:text="@string/play"
+                    android:textSize="@dimen/abc_text_size_display_1_material" />
 
                 <Button
-                    android:id="@+id/PlayerFragment_StopButton"
+                    android:id="@+id/stop_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/PlayerFragment_StopButton" />
+                    android:text="@string/stop"
+                    android:textSize="@dimen/abc_text_size_display_1_material" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
