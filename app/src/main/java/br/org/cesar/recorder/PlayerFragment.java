@@ -26,9 +26,10 @@ public class PlayerFragment extends Fragment {
     private Activity mActv;
     private ListView mFileList;
     private SoundPool mSoundPool;
-    private Map<String, Integer> mLoadedSounds = new HashMap<>();
     private int mStreamId;
     private int mSelectedItemPosition = -1;
+
+    private Button mPlayBtn, mStopBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,16 +53,18 @@ public class PlayerFragment extends Fragment {
             }
         });
 
-        Button playButton = (Button) mRootView.findViewById(R.id.play_btn);
-        playButton.setOnClickListener(new View.OnClickListener() {
+        mPlayBtn = (Button) mRootView.findViewById(R.id.play_btn);
+        mPlayBtn.setEnabled(false);
+        mPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PlayerFragment.this.onPlayButtonClick();
             }
         });
 
-        Button stopButton = (Button) mRootView.findViewById(R.id.stop_btn);
-        stopButton.setOnClickListener(new View.OnClickListener() {
+        mStopBtn = (Button) mRootView.findViewById(R.id.stop_btn);
+        mStopBtn.setEnabled(false);
+        mStopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PlayerFragment.this.onStopButtonClick();
@@ -72,7 +75,10 @@ public class PlayerFragment extends Fragment {
     }
 
     protected void onSelectItem(int index) {
+        boolean enabled = index != -1;
         mSelectedItemPosition = index;
+        mPlayBtn.setEnabled(enabled);
+        mStopBtn.setEnabled(enabled);
     }
 
     @SuppressWarnings("deprecation")
@@ -93,31 +99,23 @@ public class PlayerFragment extends Fragment {
                 mActv.getFilesDir().getAbsolutePath(),
                 mFileList.getItemAtPosition(mSelectedItemPosition));
 
-        if (mSelectedItemPosition == -1) {
-            showMsg(R.string.no_item_selected);
-        } else {
-            Integer soundId = mLoadedSounds.get(item);
+        mSoundPool.load(item, 1);
 
-            if (soundId == null) {
-                soundId = mSoundPool.load(item, 1);
-                mLoadedSounds.put(item, soundId);
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+
+                mStreamId = soundPool.play(
+                        sampleId, // Sound to play
+                        1.0f, // Left volume (from 0 to 1)
+                        1.0f, // Right volume (from 0 to 1)
+                        0, // Priority (0 is the lowest)
+                        0, // Loop? (0 = no loop; -1 = loop forever)
+                        1.0f); // Playback rate (0.5 is the lowest; 1.0 is normal; 2.0 is the highest)
+
+                showMsg(status == 0 ? R.string.playing : R.string.failed);
             }
-
-            mStreamId = mSoundPool.play(
-                    soundId, // Sound to play
-                    1.0f, // Left volume (from 0 to 1)
-                    1.0f, // Right volume (from 0 to 1)
-                    0, // Priority (0 is the lowest)
-                    0, // Loop? (0 = no loop; -1 = loop forever
-                    1.0f); // Playback rate (0.5 is the lowest; 1.0 is normal; 2.0 is the highest)
-
-            if (mStreamId != 0) { // If successful to play the sound
-                // Yay!! Commemorate!! =D
-                showMsg(R.string.playing);
-            } else { // If failed to play the sound
-                showMsg(R.string.failed);
-            }
-        }
+        });
     }
 
     private void onStopButtonClick() {
@@ -130,10 +128,5 @@ public class PlayerFragment extends Fragment {
 
     private void toast(String string) {
         Toast.makeText(mActv, string, Toast.LENGTH_SHORT).show();
-
-//        new AlertDialog.Builder(mActv)
-//                .setMessage(string).setTitle(R.string.app_name)
-//                .show();
     }
-
 }
